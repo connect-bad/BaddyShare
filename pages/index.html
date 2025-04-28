@@ -2,24 +2,76 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>OneDrive to Cloudflare Upload</title>
+  <title>Upload to Cloudflare R2</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #fff;
+    }
+    .container {
+      background: rgba(0, 0, 0, 0.4);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.25);
+      text-align: center;
+      width: 90%;
+      max-width: 450px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 6px;
+      background-color: #00c9ff;
+      background-image: linear-gradient(45deg, #00c9ff, #92fe9d);
+      font-size: 16px;
+      color: #333;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background-image: linear-gradient(45deg, #92fe9d, #00c9ff);
+    }
+    #status {
+      margin-top: 20px;
+      font-size: 16px;
+      word-wrap: break-word;
+    }
+  </style>
 </head>
 <body>
-  <h1>Upload OneDrive File to Cloudflare R2</h1>
-  <input type="text" id="link" placeholder="Paste OneDrive Link Here" size="60">
-  <button onclick="upload()">Fetch & Upload</button>
-
-  <p id="status"></p>
+  <div class="container">
+    <h2>🚀 Upload From OneDrive</h2>
+    <input type="text" id="link" placeholder="Paste your OneDrive direct link here...">
+    <button onclick="upload()">Upload</button>
+    <p id="status"></p>
+  </div>
 
   <script>
     async function upload() {
       const link = document.getElementById('link').value.trim();
       if (!link) {
-        alert('Please enter a link!');
+        alert('Please enter a OneDrive link!');
         return;
       }
 
-      document.getElementById('status').innerText = 'Uploading... Please wait.';
+      document.getElementById('status').innerText = 'Uploading... Please wait ⏳';
 
       const res = await fetch('/upload', {
         method: 'POST',
@@ -29,9 +81,9 @@
 
       const result = await res.json();
       if (result.success) {
-        document.getElementById('status').innerHTML = `Done! <a href="${result.downloadUrl}" target="_blank">Download Here</a>`;
+        document.getElementById('status').innerHTML = `✅ Done! <a href="${result.downloadUrl}" target="_blank" style="color: #00ffcc;">Download Here</a>`;
       } else {
-        document.getElementById('status').innerText = 'Error: ' + result.error;
+        document.getElementById('status').innerText = '❌ Error: ' + result.error;
       }
     }
   </script>
