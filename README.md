@@ -1,4 +1,4 @@
-# Baddyupload
+# Baddyshare
 A File Downloading Platform Based On OneDrive
 
 ## Setup Steps
