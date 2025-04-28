@@ -1,1 +1,16 @@
+name = "Baddyupload"
+main = "worker/index.js"
+compatibility_date = "2024-04-28"
 
+[[r2_buckets]]
+binding = "R2_BUCKET"
+bucket_name = "YOUR_BUCKET_NAME"
+preview_bucket_name = "YOUR_BUCKET_NAME"
+
+[triggers]
+crons = ["0 */1 * * *"] # Scheduled Worker every 1 hour
+
+[[services]]
+binding = "SCHEDULED"
+service = "scheduled-worker"
+environment = "production"

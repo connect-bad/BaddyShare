@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>OneDrive to Cloudflare Upload</title>
+</head>
+<body>
+  <h1>Upload OneDrive File to Cloudflare R2</h1>
+  <input type="text" id="link" placeholder="Paste OneDrive Link Here" size="60">
+  <button onclick="upload()">Fetch & Upload</button>
+
+  <p id="status"></p>
+
+  <script>
+    async function upload() {
+      const link = document.getElementById('link').value.trim();
+      if (!link) {
+        alert('Please enter a link!');
+        return;
+      }
+
+      document.getElementById('status').innerText = 'Uploading... Please wait.';
+
+      const res = await fetch('/upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ onedriveLink: link })
+      });
+
+      const result = await res.json();
+      if (result.success) {
+        document.getElementById('status').innerHTML = `Done! <a href="${result.downloadUrl}" target="_blank">Download Here</a>`;
+      } else {
+        document.getElementById('status').innerText = 'Error: ' + result.error;
+      }
+    }
+  </script>
+</body>
+</html>
